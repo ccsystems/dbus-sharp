@@ -13,7 +13,7 @@ namespace DBus
 
 	class TypeImplementer
 	{
-		public static readonly TypeImplementer Root = new TypeImplementer ("DBus.Proxies", false);
+		public static readonly TypeImplementer Root = new TypeImplementer ("DBus.Proxies");
 		AssemblyBuilder asmB;
 		ModuleBuilder modB;
 		static readonly object getImplLock = new Object ();
@@ -41,10 +41,9 @@ namespace DBus
 		static Dictionary<EventInfo,DynamicMethod> hookup_methods = new Dictionary<EventInfo,DynamicMethod> ();
 		static Dictionary<Type,MethodInfo> readMethods = new Dictionary<Type,MethodInfo> ();
 
-		public TypeImplementer (string name, bool canSave)
+		public TypeImplementer (string name)
 		{
-			asmB = AppDomain.CurrentDomain.DefineDynamicAssembly (new AssemblyName (name),
-			                                                      canSave ? AssemblyBuilderAccess.RunAndSave : AssemblyBuilderAccess.Run);
+			asmB = AssemblyBuilder.DefineDynamicAssembly (new AssemblyName (name), AssemblyBuilderAccess.Run);
 			modB = asmB.DefineDynamicModule (name);
 		}
 
